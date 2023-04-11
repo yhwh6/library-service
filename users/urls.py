@@ -10,7 +10,7 @@ app_name = "users"
 
 urlpatterns = [
     path(
-        "",
+        "create/",
         CreateUserView.as_view(),
         name="create",
     ),

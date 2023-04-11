@@ -2,14 +2,14 @@ from django.db import transaction
 from django.utils.timezone import now
 from rest_framework import serializers
 
-from books.serializer import BookListSerializer
+from books.serializers import BookListSerializer
 from borrowings.models import Borrowing
 from books.models import Book
 
 
 class BorrowingSerializer(serializers.ModelSerializer):
     borrow_date = serializers.DateField(
-        help_text="The default is today's date"
+        help_text="Today's date = default"
     )
 
     def validate(self, attrs):
@@ -18,7 +18,7 @@ class BorrowingSerializer(serializers.ModelSerializer):
         book_instance = Book.objects.get(id=attrs["book"].id)
         if book_instance.inventory < 1:
             raise serializers.ValidationError(
-                "A copy of the book is not available yet!"
+                "The book is not available yet!"
             )
 
         Borrowing.validate_date(
