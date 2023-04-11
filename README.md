@@ -1,4 +1,4 @@
-## library-service
+## Library service
 
 DRF API service for library management
 
