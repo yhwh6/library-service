@@ -18,14 +18,6 @@ python manage.py migrate
 python manage.py runserver
 ````
 
-
-## Run locally
-
-```bash
-python manage.py migrate
-python manage.py runserver
-```
-
 ## Getting access
 <hr>
 
