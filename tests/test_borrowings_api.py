@@ -23,9 +23,7 @@ def _borrowing_return_url(*args) -> str:
 
 def _auth(email: str, staff: bool) -> (APIClient(), UserModel):
     client = APIClient()
-    user = get_user_model().objects.create_user(
-        email, "qwerty123", is_staff=staff
-    )
+    user = get_user_model().objects.create_user(email, "qwerty123", is_staff=staff)
     client.force_authenticate(user)
 
     return client, user
@@ -85,9 +83,7 @@ class BorrowingAPITests(TestCase):
         self.assertEqual(len(admin_response.data), 2)
 
     def test_borrowing_creation(self):
-        self.assertEqual(
-            self.post_response.status_code, status.HTTP_201_CREATED
-        )
+        self.assertEqual(self.post_response.status_code, status.HTTP_201_CREATED)
 
         book = Book.objects.get(id=self.post_response.data["book"])
         self.assertEqual(
@@ -103,9 +99,7 @@ class BorrowingAPITests(TestCase):
         error_response = self.admin_client.post(
             BORROWING_LIST_URL, data=self.admin_borrowing
         )
-        self.assertEqual(
-            error_response.status_code, status.HTTP_400_BAD_REQUEST
-        )
+        self.assertEqual(error_response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(
             error_response.data["non_field_errors"],
             ["The book is not available yet!"],
@@ -127,9 +121,7 @@ class BorrowingAPITests(TestCase):
         error_response = self.admin_client.patch(
             _borrowing_return_url(self.post_response.data["id"])
         )
-        self.assertEqual(
-            error_response.status_code, status.HTTP_400_BAD_REQUEST
-        )
+        self.assertEqual(error_response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(
             error_response.data["non_field_errors"],
             ["The book has already been returned"],
@@ -145,9 +137,7 @@ class BorrowingAPITests(TestCase):
             BORROWING_LIST_URL, {"user_id": self.user.id}
         )
         self.assertEqual(len(user_borrowings_response.data), 1)
-        self.assertEqual(
-            user_borrowings_response.data[0]["user"], self.user.id
-        )
+        self.assertEqual(user_borrowings_response.data[0]["user"], self.user.id)
 
         inactive_borrowing_response = self.user_client.get(
             BORROWING_LIST_URL, {"is_active": False}

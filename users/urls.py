@@ -17,12 +17,12 @@ urlpatterns = [
     path(
         "token/",
         TokenObtainPairView.as_view(),
-        name="token_obtain_pair",
+        name="token-obtain-pair",
     ),
     path(
         "token/refresh/",
         TokenRefreshView.as_view(),
-        name="token_refresh",
+        name="token-refresh",
     ),
     path(
         "me/",

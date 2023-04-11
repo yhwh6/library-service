@@ -39,5 +39,7 @@ class BorrowingModelTests(TestCase):
         except ValidationError as ve:
             self.assertEqual(
                 ve.messages,
-                ["The expected return date must be greater than or equal to the borrow date."],
+                [
+                    "The expected return date must be greater than or equal to the borrow date."
+                ],
             )

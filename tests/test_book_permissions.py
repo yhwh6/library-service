@@ -20,9 +20,7 @@ def _book_url_with_id(*args) -> str:
 
 def _auth(email: str, staff: bool) -> (APIClient(), UserModel):
     client = APIClient()
-    user = get_user_model().objects.create_user(
-        email, "qwerty123", is_staff=staff
-    )
+    user = get_user_model().objects.create_user(email, "qwerty123", is_staff=staff)
     client.force_authenticate(user)
 
     return client, user
@@ -50,12 +48,8 @@ class BookPermissionsTests(TestCase):
         }
 
     def test_book_creation_update_deletion(self):
-        response_creation = self.admin_client.post(
-            BOOK_LIST_URL, data=self.think_like
-        )
-        self.assertEqual(
-            response_creation.status_code, status.HTTP_201_CREATED
-        )
+        response_creation = self.admin_client.post(BOOK_LIST_URL, data=self.think_like)
+        self.assertEqual(response_creation.status_code, status.HTTP_201_CREATED)
 
         response_update = self.admin_client.put(
             _book_url_with_id(response_creation.data["id"]),
@@ -66,17 +60,11 @@ class BookPermissionsTests(TestCase):
         response_deletion = self.admin_client.delete(
             _book_url_with_id(response_creation.data["id"]),
         )
-        self.assertEqual(
-            response_deletion.status_code, status.HTTP_204_NO_CONTENT
-        )
+        self.assertEqual(response_deletion.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_anon_and_auth_access_for_read_only(self):
-        response_creation = self.user_client.post(
-            BOOK_LIST_URL, data=self.think_like
-        )
-        self.assertEqual(
-            response_creation.status_code, status.HTTP_403_FORBIDDEN
-        )
+        response_creation = self.user_client.post(BOOK_LIST_URL, data=self.think_like)
+        self.assertEqual(response_creation.status_code, status.HTTP_403_FORBIDDEN)
 
         self.admin_client.post(BOOK_LIST_URL, data=self.his_dark)
         self.admin_client.post(BOOK_LIST_URL, data=self.think_like)

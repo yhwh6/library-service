@@ -33,7 +33,6 @@ class BorrowingViewSet(viewsets.ModelViewSet):
         return queryset
 
     def get_queryset(self):
-        """Return user borrowings with filters is_active and user_id (for admin)"""
         queryset = self.queryset
         is_active = self.request.query_params.get("is_active")
         user_id = self.request.query_params.get("user_id")
@@ -66,7 +65,6 @@ class BorrowingViewSet(viewsets.ModelViewSet):
         permission_classes=[IsAdminUser],
     )
     def return_book(self, request, pk=None):
-        """Endpoint for book returning"""
         borrowing = self.get_object()
         serializer = self.get_serializer(borrowing, data=request.data)
 

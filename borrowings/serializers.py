@@ -8,18 +8,14 @@ from books.models import Book
 
 
 class BorrowingSerializer(serializers.ModelSerializer):
-    borrow_date = serializers.DateField(
-        help_text="Today's date = default"
-    )
+    borrow_date = serializers.DateField(help_text="Today's date = default")
 
     def validate(self, attrs):
         data = super(BorrowingSerializer, self).validate(attrs=attrs)
 
         book_instance = Book.objects.get(id=attrs["book"].id)
         if book_instance.inventory < 1:
-            raise serializers.ValidationError(
-                "The book is not available yet!"
-            )
+            raise serializers.ValidationError("The book is not available yet!")
 
         Borrowing.validate_date(
             data["borrow_date"],
@@ -68,9 +64,7 @@ class BorrowingReturnSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         data = super(BorrowingReturnSerializer, self).validate(attrs=attrs)
         if self.instance.actual_return_date is not None:
-            raise serializers.ValidationError(
-                "The book has already been returned"
-            )
+            raise serializers.ValidationError("The book has already been returned")
         return data
 
     def update(self, instance, validated_data):

@@ -56,9 +56,7 @@ class Borrowing(models.Model):
         )
 
     def __str__(self):
-        return (
-            f"{self.book} ({self.borrow_date} - {self.expected_return_date})"
-        )
+        return f"{self.book} ({self.borrow_date} - {self.expected_return_date})"
 
     class Meta:
         ordering = ["book", "borrow_date"]
