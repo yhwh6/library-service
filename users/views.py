@@ -1,4 +1,3 @@
-from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics
 
@@ -11,7 +10,6 @@ class CreateUserView(generics.CreateAPIView):
 
 class ManageUserView(generics.RetrieveUpdateAPIView):
     serializer_class = UserSerializer
-    authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
     def get_object(self):
